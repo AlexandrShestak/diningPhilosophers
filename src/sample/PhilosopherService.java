@@ -42,4 +42,8 @@ public class PhilosopherService {
     public List<Philosopher> getPhilosophers() {
         return philosophers;
     }
+
+    public List<Boolean> getForks() {
+        return forks;
+    }
 }

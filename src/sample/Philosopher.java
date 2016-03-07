@@ -76,7 +76,7 @@ public class Philosopher extends Thread {
 
     private synchronized void getRightFork() {
         if (forks.get(philosopherNumber + 1)) {
-            forks.set(philosopherNumber + 1, false);
+            forks.set((philosopherNumber + 1) % forks.size() , false);
             rightFork = true;
         }
     }
@@ -89,7 +89,7 @@ public class Philosopher extends Thread {
     }
 
     private synchronized void putRightFork() {
-        forks.set(philosopherNumber + 1, true);
+        forks.set((philosopherNumber + 1) % forks.size(), true);
         rightFork = false;
     }
 }
