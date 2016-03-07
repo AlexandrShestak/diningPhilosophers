@@ -8,14 +8,28 @@ public class Philosopher extends Thread {
     private List<Boolean> forks;
     private boolean leftFork = false;
     private boolean rightFork = false;
+    private boolean eating;
+    private boolean thinking;
 
 
-    public void setPhilosopherNumber(int philosophernumber) {
-        this.philosopherNumber = philosophernumber;
+    public void setPhilosopherNumber(int philosopherNumber) {
+        this.philosopherNumber = philosopherNumber;
     }
 
     public void setForks(List<Boolean> forks) {
         this.forks = forks;
+    }
+
+    public boolean isEating() {
+        return eating;
+    }
+
+    public boolean isThinking() {
+        return thinking;
+    }
+
+    public int getPhilosopherNumber() {
+        return philosopherNumber;
     }
 
     @Override
@@ -31,24 +45,26 @@ public class Philosopher extends Thread {
 
     private void eat() {
         System.out.println(Thread.currentThread().getName() + "eating");
-        putLeftFork();
-        putRightFork();
+        eating = true;
+        thinking = false;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        putLeftFork();
+        putRightFork();
     }
 
     private void think() {
         System.out.println(Thread.currentThread().getName() + "thinking");
-        getLeftFork();
-        getRightFork();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        getLeftFork();
+        getRightFork();
     }
 
     private synchronized void getLeftFork() {
@@ -68,6 +84,8 @@ public class Philosopher extends Thread {
     private synchronized void putLeftFork() {
         forks.set(philosopherNumber, true);
         leftFork = false;
+        thinking = true;
+        eating = false;
     }
 
     private synchronized void putRightFork() {
