@@ -13,8 +13,11 @@ public class Philosopher extends Thread {
     private boolean rightFork = false;
     private boolean eating;
     private boolean thinking;
-    private Integer eatCount = 0;
-
+    private ThreadLocal<Integer> eatCount = new ThreadLocal<Integer>() {
+        @Override protected Integer initialValue() {
+            return 0;
+        }
+    };
     public void setPhilosopherNumber(int philosopherNumber) {
         this.philosopherNumber = philosopherNumber;
     }
@@ -34,6 +37,10 @@ public class Philosopher extends Thread {
     public int getPhilosopherNumber() {
         return philosopherNumber;
     }
+    public Integer getEatCount() {
+        return eatCount.get();
+    }
+
 
     @Override
     public void run() {
@@ -47,7 +54,7 @@ public class Philosopher extends Thread {
     }
 
     private void eat() {
-        Platform.runLater(() ->  eatCount++);
+        eatCount.set(eatCount.get()+1);
         eating = true;
         thinking = false;
         try {
