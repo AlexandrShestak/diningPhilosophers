@@ -12,6 +12,7 @@
 <GridPane alignment="center" hgap="10" prefHeight="595.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
@@ -19,13 +20,19 @@
    <children>
       <VBox prefHeight="700.0" prefWidth="600.0">
          <children>
-            <HBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="74.0" prefWidth="595.0">
+            <HBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="74.0" prefWidth="223.0" text="Start" />
-                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="74.0" prefWidth="208.0" text="Stop" textAlignment="RIGHT" />
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="200.0" prefWidth="100.0" text="Start" textAlignment="CENTER" />
+                  <TableView  fx:id="philosopherResultsTable" prefHeight="200.0" prefWidth="400.0">
+                    <columns>
+                      <TableColumn fx:id="philosopherNumberColumn" prefWidth="200.0" text="Philisopher №" />
+                      <TableColumn fx:id="philosopherEatingCountColumn" prefWidth="200.0" text="PhilosopherEatingCount" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="200.0" prefWidth="100.0" text="Stop" textAlignment="RIGHT" />
                </children>
             </HBox>
-            <Canvas fx:id="philosopherTable" height="600.0" width="600.0" />
+            <Canvas fx:id="philosopherTable" height="500.0" width="600.0" />
          </children>
       </VBox>
    </children>

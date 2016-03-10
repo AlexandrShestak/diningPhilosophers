@@ -1,9 +1,13 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
 import java.util.List;
@@ -21,6 +25,16 @@ public class Controller {
     private Canvas philosopherTable;
 
     @FXML
+    private TableView philosopherResultsTable;
+
+    @FXML
+    private TableColumn philosopherNumberColumn;
+
+    @FXML
+    private TableColumn philosopherEatingCountColumn;
+
+
+    @FXML
     private void initialize() {
         philosopherService = new PhilosopherService();
 
@@ -31,6 +45,12 @@ public class Controller {
                 Platform.runLater(()-> repaint());
             }
         }, 1 , 10000);
+
+        philosopherResultsTable.setItems(FXCollections.observableArrayList(philosopherService.getPhilosophers()));
+        philosopherNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<Philosopher, Integer>("philosopherNumber"));
+        philosopherEatingCountColumn.setCellValueFactory(
+                new PropertyValueFactory<Philosopher, Integer>("eatCount"));
     }
 
     @FXML
@@ -63,14 +83,15 @@ public class Controller {
             graphicsContext.fillText("Philosopher №" + philosopher.getPhilosopherNumber(), xCoordinate, yCoordinate);
         }
         List<Boolean> forks = philosopherService.getForks();
+
         for (int  i = 0 ; i < philosopherService.PHILOSOPHERS_NUMBER ; i++) {
             if (forks.get(i)) {
                 graphicsContext.setFill(Color.GREEN);
             } else {
                 graphicsContext.setFill(Color.BLACK);
             }
-            double xCoordinate = width/2 + width/3*Math.sin(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i+0.5));
-            double yCoordinate = height/2 + height/3*Math.cos(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i+0.5));
+            double xCoordinate = width/2 + width/3*Math.sin(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i-0.5));
+            double yCoordinate = height/2 + height/3*Math.cos(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i-0.5));
             graphicsContext.fillOval(xCoordinate, yCoordinate, FORK_RADIUS, FORK_RADIUS);
 
         }
