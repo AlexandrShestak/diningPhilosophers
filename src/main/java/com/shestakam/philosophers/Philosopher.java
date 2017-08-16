@@ -1,10 +1,8 @@
 package sample;
 
-import javafx.application.Platform;
-
 import java.util.List;
 
-public class Philosopher extends Thread {
+public class Philosopher implements Runnable {
 
     private Integer philosopherNumber;
     private List<Boolean> forks;
@@ -13,34 +11,7 @@ public class Philosopher extends Thread {
     private boolean rightFork = false;
     private boolean eating;
     private boolean thinking;
-    private ThreadLocal<Integer> eatCount = new ThreadLocal<Integer>() {
-        @Override protected Integer initialValue() {
-            return 0;
-        }
-    };
-    public void setPhilosopherNumber(int philosopherNumber) {
-        this.philosopherNumber = philosopherNumber;
-    }
-
-    public void setForks(List<Boolean> forks) {
-        this.forks = forks;
-    }
-
-    public boolean isEating() {
-        return eating;
-    }
-
-    public boolean isThinking() {
-        return thinking;
-    }
-
-    public int getPhilosopherNumber() {
-        return philosopherNumber;
-    }
-    public Integer getEatCount() {
-        return eatCount.get();
-    }
-
+    private ThreadLocal<Integer> eatCount = ThreadLocal.withInitial(() -> 0);
 
     @Override
     public void run() {
@@ -124,5 +95,29 @@ public class Philosopher extends Thread {
 
     public void setSemaphore(List<BoundedSemaphore> semaphores) {
         this.semaphores = semaphores;
+    }
+
+    public void setPhilosopherNumber(int philosopherNumber) {
+        this.philosopherNumber = philosopherNumber;
+    }
+
+    public void setForks(List<Boolean> forks) {
+        this.forks = forks;
+    }
+
+    public boolean isEating() {
+        return eating;
+    }
+
+    public boolean isThinking() {
+        return thinking;
+    }
+
+    public int getPhilosopherNumber() {
+        return philosopherNumber;
+    }
+
+    public Integer getEatCount() {
+        return eatCount.get();
     }
 }

@@ -1,4 +1,4 @@
-package sample;
+package com.shestakam.philosophers;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,15 +9,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@org.springframework.stereotype.Controller
 public class Controller {
 
-    private static final double FILOSOPHER_RADIUS = 30;
+    private static final double PHILOSOPHER_RADIUS = 30;
     private static final double FORK_RADIUS = 10;
+
+    @Autowired
     private PhilosopherService philosopherService;
 
 
@@ -36,7 +40,6 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        philosopherService = new PhilosopherService();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -55,13 +58,13 @@ public class Controller {
 
     @FXML
     private void start() {
-        philosopherService.getPhilosophers().forEach(Philosopher::start);
+        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).start());
     }
 
     @FXML
     private void stop() {
         // TODO: 07.03.2016 know why stop is deprecated
-        philosopherService.getPhilosophers().forEach(Philosopher::stop);
+        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).start());
 
     }
 
@@ -79,7 +82,7 @@ public class Controller {
             int philosopherNumber = philosopher.getPhilosopherNumber();
             double xCoordinate = width/2 + width/3*Math.sin(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*philosopherNumber);
             double yCoordinate = height/2 + height/3*Math.cos(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*philosopherNumber);
-            graphicsContext.fillOval(xCoordinate, yCoordinate, FILOSOPHER_RADIUS, FILOSOPHER_RADIUS);
+            graphicsContext.fillOval(xCoordinate, yCoordinate, PHILOSOPHER_RADIUS, PHILOSOPHER_RADIUS);
             graphicsContext.fillText("Philosopher №" + philosopher.getPhilosopherNumber(), xCoordinate, yCoordinate);
         }
         List<Boolean> forks = philosopherService.getForks();
