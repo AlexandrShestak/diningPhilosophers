@@ -1,5 +1,7 @@
-package com.shestakam.philosophers;
+package com.shestakam.philosophers.controllers;
 
+import com.shestakam.philosophers.Philosopher;
+import com.shestakam.philosophers.services.PhilosopherService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

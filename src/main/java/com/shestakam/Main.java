@@ -1,4 +1,4 @@
-package com.shestakam.philosophers;
+package com.shestakam;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,21 +7,34 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class Main extends Application {
 
+    private ConfigurableApplicationContext context;
+    private Parent rootNode;
+
+    @Override
+    public void init() throws Exception {
+        context = SpringApplication.run(Main.class);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/sample.fxml"));
+        fxmlLoader.setControllerFactory(context::getBean);
+        rootNode = fxmlLoader.load();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 700, 600));
+        primaryStage.setScene(new Scene(rootNode, 700, 600));
         primaryStage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        context.close();
+    }
 
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
         launch(args);
     }
 }

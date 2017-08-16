@@ -1,4 +1,4 @@
-package com.shestakam.philosophers;
+package com.shestakam.philosophers.services;
 
 import com.shestakam.philosophers.BoundedSemaphore;
 import com.shestakam.philosophers.Philosopher;

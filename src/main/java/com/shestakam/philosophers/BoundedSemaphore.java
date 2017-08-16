@@ -1,4 +1,4 @@
-package sample;
+package com.shestakam.philosophers;
 
 public class BoundedSemaphore {
   private int signals = 0;

@@ -1,4 +1,4 @@
-package sample;
+package com.shestakam.philosophers;
 
 import java.util.List;
 
