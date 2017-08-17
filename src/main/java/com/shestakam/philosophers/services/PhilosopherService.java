@@ -24,11 +24,11 @@ public class PhilosopherService {
         }
         philosophers = new ArrayList<>();
         for (int i = 0 ; i < PHILOSOPHERS_NUMBER ; i++) {
-            Philosopher thread = new Philosopher();
-            thread.setPhilosopherNumber(i);
-            thread.setForks(forks);
-            thread.setSemaphore(semaphores);
-            philosophers.add(thread);
+            Philosopher philosopher = new Philosopher();
+            philosopher.setPhilosopherNumber(i);
+            philosopher.setForks(forks);
+            philosopher.setSemaphore(semaphores);
+            philosophers.add(philosopher);
         }
     }
 

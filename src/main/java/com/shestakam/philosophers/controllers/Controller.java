@@ -48,10 +48,12 @@ public class Controller {
             @Override
             public void run() {
                 Platform.runLater(()-> repaint());
+                // shod be fixed !!! this line must be deleted, observable list should be update by yourself
+                philosopherResultsTable.refresh();
             }
-        }, 1 , 10000);
+        }, 1 , 100);
 
-        philosopherResultsTable.setItems(FXCollections.observableArrayList(philosopherService.getPhilosophers()));
+        philosopherResultsTable.setItems(FXCollections.synchronizedObservableList(FXCollections.observableArrayList(philosopherService.getPhilosophers())));
         philosopherNumberColumn.setCellValueFactory(
                 new PropertyValueFactory<Philosopher, Integer>("philosopherNumber"));
         philosopherEatingCountColumn.setCellValueFactory(
@@ -66,8 +68,7 @@ public class Controller {
     @FXML
     private void stop() {
         // TODO: 07.03.2016 know why stop is deprecated
-        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).start());
-
+        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).stop());
     }
 
     private void repaint() {

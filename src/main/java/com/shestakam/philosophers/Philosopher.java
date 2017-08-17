@@ -11,7 +11,7 @@ public class Philosopher implements Runnable {
     private boolean rightFork = false;
     private boolean eating;
     private boolean thinking;
-    private ThreadLocal<Integer> eatCount = ThreadLocal.withInitial(() -> 0);
+    private Integer eatCount = 0;
 
     @Override
     public void run() {
@@ -25,7 +25,7 @@ public class Philosopher implements Runnable {
     }
 
     private void eat() {
-        eatCount.set(eatCount.get()+1);
+        eatCount += 1;
         eating = true;
         thinking = false;
         try {
@@ -118,6 +118,6 @@ public class Philosopher implements Runnable {
     }
 
     public Integer getEatCount() {
-        return eatCount.get();
+        return eatCount;
     }
 }
