@@ -62,13 +62,15 @@ public class Controller {
 
     @FXML
     private void start() {
-        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).start());
+        philosopherService.getPhilosophers().forEach(philosopher -> {
+            philosopher.setRunning(true);
+            new Thread(philosopher).start();
+        });
     }
 
     @FXML
     private void stop() {
-        // TODO: 07.03.2016 know why stop is deprecated
-        philosopherService.getPhilosophers().forEach(philosopher -> new Thread(philosopher).stop());
+        philosopherService.getPhilosophers().forEach(philosopher -> philosopher.setRunning(false));
     }
 
     private void repaint() {

@@ -12,10 +12,11 @@ public class Philosopher implements Runnable {
     private boolean eating;
     private boolean thinking;
     private Integer eatCount = 0;
+    private boolean isRunning = true;
 
     @Override
     public void run() {
-        while (true) {
+        while (isRunning) {
             if (leftFork && rightFork) {
                 eat();
             } else {
@@ -119,5 +120,9 @@ public class Philosopher implements Runnable {
 
     public Integer getEatCount() {
         return eatCount;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
     }
 }
