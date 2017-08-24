@@ -77,6 +77,11 @@ public class Controller {
         GraphicsContext graphicsContext = philosopherTable.getGraphicsContext2D();
         double width = philosopherTable.getWidth();
         double height = philosopherTable.getHeight();
+        repaintPhilosophers(graphicsContext, width, height);
+        repaintForks(graphicsContext, width, height);
+    }
+
+    private void repaintPhilosophers(GraphicsContext graphicsContext, double width, double height) {
         for (Philosopher philosopher : philosopherService.getPhilosophers()) {
             if (philosopher.isEating()) {
                 graphicsContext.setFill(Color.RED);
@@ -90,8 +95,10 @@ public class Controller {
             graphicsContext.fillOval(xCoordinate, yCoordinate, PHILOSOPHER_RADIUS, PHILOSOPHER_RADIUS);
             graphicsContext.fillText("Philosopher №" + philosopher.getPhilosopherNumber(), xCoordinate, yCoordinate);
         }
-        List<Boolean> forks = philosopherService.getForks();
+    }
 
+    private void repaintForks(GraphicsContext graphicsContext, double width, double height) {
+        List<Boolean> forks = philosopherService.getForks();
         for (int  i = 0 ; i < philosopherService.PHILOSOPHERS_NUMBER ; i++) {
             if (forks.get(i)) {
                 graphicsContext.setFill(Color.GREEN);
@@ -101,7 +108,6 @@ public class Controller {
             double xCoordinate = width/2 + width/3*Math.sin(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i-0.5));
             double yCoordinate = height/2 + height/3*Math.cos(2*Math.PI/PhilosopherService.PHILOSOPHERS_NUMBER*(i-0.5));
             graphicsContext.fillOval(xCoordinate, yCoordinate, FORK_RADIUS, FORK_RADIUS);
-
         }
     }
 }
