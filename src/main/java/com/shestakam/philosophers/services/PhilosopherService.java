@@ -1,6 +1,5 @@
 package com.shestakam.philosophers.services;
 
-import com.shestakam.philosophers.BoundedSemaphore;
 import com.shestakam.philosophers.Philosopher;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,14 @@ public class PhilosopherService {
     public static final int PHILOSOPHERS_NUMBER = 5;
     private List<Philosopher> philosophers;
     private List<Boolean> forks;
-    private List<BoundedSemaphore> semaphores;
+    private List<Semaphore> semaphores;
 
     public PhilosopherService() {
         forks = new ArrayList<>(PHILOSOPHERS_NUMBER);
         semaphores = new ArrayList<>(PHILOSOPHERS_NUMBER);
         for (int i = 0 ; i < PHILOSOPHERS_NUMBER ; i++) {
             forks.add(true);
-            semaphores.add(new BoundedSemaphore(1));
+            semaphores.add(new Semaphore(1, true));
         }
         philosophers = new ArrayList<>();
         for (int i = 0 ; i < PHILOSOPHERS_NUMBER ; i++) {

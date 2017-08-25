@@ -1,12 +1,13 @@
 package com.shestakam.philosophers;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class Philosopher implements Runnable {
 
     private Integer philosopherNumber;
     private List<Boolean> forks;
-    private List<BoundedSemaphore> semaphores;
+    private List<Semaphore> semaphores;
     private boolean leftFork = false;
     private boolean rightFork = false;
     private boolean eating;
@@ -48,7 +49,7 @@ public class Philosopher implements Runnable {
 
     private void getLeftFork() {
         try {
-            semaphores.get(philosopherNumber).take();
+            semaphores.get(philosopherNumber).acquire();
             if (forks.get(philosopherNumber).booleanValue()) {
                 forks.set(philosopherNumber, false);
                 leftFork = true;
@@ -60,7 +61,7 @@ public class Philosopher implements Runnable {
 
     private void getRightFork() {
         try {
-            semaphores.get((philosopherNumber + 1) % semaphores.size()).take();
+            semaphores.get((philosopherNumber + 1) % semaphores.size()).acquire();
             if (forks.get((philosopherNumber + 1) % forks.size())) {
                 forks.set((philosopherNumber + 1) % forks.size() , false);
                 rightFork = true;
@@ -71,27 +72,19 @@ public class Philosopher implements Runnable {
     }
 
     private void putLeftFork() {
-        try {
-            semaphores.get(philosopherNumber).release();
-            forks.set(philosopherNumber, true);
-            leftFork = false;
-            eating = false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        semaphores.get(philosopherNumber).release();
+        forks.set(philosopherNumber, true);
+        leftFork = false;
+        eating = false;
     }
 
     private void putRightFork() {
-        try {
-            semaphores.get((philosopherNumber + 1) % semaphores.size()).release();
-            forks.set((philosopherNumber + 1) % forks.size(), true);
-            rightFork = false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        semaphores.get((philosopherNumber + 1) % semaphores.size()).release();
+        forks.set((philosopherNumber + 1) % forks.size(), true);
+        rightFork = false;
     }
 
-    public void setSemaphore(List<BoundedSemaphore> semaphores) {
+    public void setSemaphore(List<Semaphore> semaphores) {
         this.semaphores = semaphores;
     }
 
