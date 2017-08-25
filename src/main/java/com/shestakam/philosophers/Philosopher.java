@@ -43,8 +43,13 @@ public class Philosopher implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        getLeftFork();
-        getRightFork();
+        if (philosopherNumber.equals(0)) {
+            getRightFork();
+            getLeftFork();
+        } else {
+            getLeftFork();
+            getRightFork();
+        }
     }
 
     private void getLeftFork() {
