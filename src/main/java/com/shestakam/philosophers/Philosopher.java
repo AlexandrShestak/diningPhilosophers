@@ -10,7 +10,6 @@ public class Philosopher implements Runnable {
     private boolean leftFork = false;
     private boolean rightFork = false;
     private boolean eating;
-    private boolean thinking;
     private Integer eatCount = 0;
     private boolean isRunning = true;
 
@@ -28,7 +27,6 @@ public class Philosopher implements Runnable {
     private void eat() {
         eatCount += 1;
         eating = true;
-        thinking = false;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -77,7 +75,6 @@ public class Philosopher implements Runnable {
             semaphores.get(philosopherNumber).release();
             forks.set(philosopherNumber, true);
             leftFork = false;
-            thinking = true;
             eating = false;
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -108,10 +105,6 @@ public class Philosopher implements Runnable {
 
     public boolean isEating() {
         return eating;
-    }
-
-    public boolean isThinking() {
-        return thinking;
     }
 
     public int getPhilosopherNumber() {
